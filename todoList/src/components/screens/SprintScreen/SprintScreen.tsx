@@ -1,3 +1,9 @@
+import { Header } from "../../layouts/Header/Header";
+
 export const SprintScreen = () => {
-  return <div>SprintScreen</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 };
