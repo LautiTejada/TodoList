@@ -1,3 +1,4 @@
+import { CardSpring } from '../ui/CardSpring/CardSpring';
 import styles from './Home.module.css';
 
 export const Home = () => {
@@ -6,6 +7,9 @@ export const Home = () => {
         <h2 className={styles.titleNav}>BackLog </h2>
         <div className={styles.listSprints}>
             <h3>Lista de Sprints</h3>
+            <div>
+                <CardSpring/>
+            </div>
         </div>
 
     </div>
