@@ -1,0 +1,11 @@
+.backlogContainer {
+  display: flex;
+}
+.tareaContainer {
+  width: 75vw;
+  margin: 1rem;
+  margin-right: 2rem;
+}
+.subtitleContainer {
+  margin: 1rem;
+}

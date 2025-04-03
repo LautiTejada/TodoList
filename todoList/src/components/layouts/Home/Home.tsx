@@ -1,17 +1,16 @@
-import { CardSpring } from '../ui/CardSpring/CardSpring';
-import styles from './Home.module.css';
+import { CardSpring } from "../ui/CardSpring/CardSpring";
+import styles from "./Home.module.css";
 
 export const Home = () => {
-    return (
+  return (
     <div className={styles.navBacklog}>
-        <h2 className={styles.titleNav}>BackLog </h2>
-        <div className={styles.listSprints}>
-            <h3>Lista de Sprints</h3>
-            <div>
-                <CardSpring/>
-            </div>
+      <div className={styles.listCardContainer}>
+        <div className={styles.titleContainer}>
+          <h3>Lista de Sprint</h3>
+          <span className="material-symbols-outlined">list</span>
         </div>
-
+        <CardSpring />
+      </div>
     </div>
-    )
-}
+  );
+};
