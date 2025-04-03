@@ -9,3 +9,13 @@
 .subtitleContainer {
   margin: 1rem;
 }
+.tareasHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.addTareaButton {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
