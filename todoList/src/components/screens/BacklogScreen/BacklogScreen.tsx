@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import { CardTarea } from "../../CardTarea/CardTarea";
 import { Header } from "../../layouts/Header/Header";
 import { Home } from "../../layouts/Home/Home";
@@ -12,8 +13,15 @@ export const BacklogScreen = () => {
         <div>
           <div className={styles.subtitleContainer}>
             <h3>Backlog</h3>
-            <h4>Tareas en el backlog</h4>
-            <button> Agregar Tarea</button>
+            <div className={styles.tareasHeader}>
+              <h4>Tareas en el backlog</h4>
+              <Button variant="primary">
+                <div className={styles.addTareaButton}>
+                  Agregar Tarea
+                  <span className="material-symbols-outlined">add_box</span>
+                </div>
+              </Button>
+            </div>
           </div>
           <div className={styles.tareaContainer}>
             <CardTarea />
