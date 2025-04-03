@@ -1,58 +1,27 @@
-import { Button, Card } from 'react-bootstrap';
-import styles from './CardSpring.module.css'
-
+import { Card } from "react-bootstrap";
+import styles from "./CardSpring.module.css";
 export const CardSpring = () => {
-    return (
-        <Card
-            className={styles.cardSpring}
-            style={{ cursor: "pointer", backgroundColor:"#cccc"}}
-            >
-            <Card.Title className={styles.titleCardSpring}>Spring 1</Card.Title>
-            
-            <Card.Body className={styles.bodyCard}>
-
-                <div className={styles.containaerCardSpring}>
-                    <p>Inicio: </p>
-                    <p>Cierre: </p>
-                </div>
-            
-                <div className={styles.buttonsCardSpring}>
-                        <Button
-                            className="d-flex align-items-center"
-                            variant="warning"
-                        >
-                            <span
-                            className="material-symbols-outlined"
-                            style={{ color: "black" }}
-                            >
-                            visibility
-                            </span>
-                        </Button>
-                        <Button
-                            className="d-flex align-items-center"
-                            variant="primary"
-                            
-                        >
-                            <span
-                            className="material-symbols-outlined"
-                            style={{ color: "black" }}
-                            >
-                            edit
-                            </span>
-                        </Button>
-                        <Button
-                            className="d-flex align-items-center"
-                            variant="danger"
-                        >
-                            <span
-                            className="material-symbols-outlined"
-                            style={{ color: "black" }}
-                            >
-                            delete
-                            </span>
-                        </Button>
-                    </div>
-        </Card.Body>
-        </Card>
-    )
-}
+  return (
+    <>
+      <div className={styles.cardSprintContainer}>
+        {["Light"].map((variant) => (
+          <Card
+            bg={variant.toLowerCase()}
+            key={variant}
+            text={variant.toLowerCase() === "light" ? "dark" : "white"}
+            style={{ width: "18rem" }}
+            className="mb-2"
+          >
+            <Card.Body>
+              <Card.Title>{variant} Card Title </Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    </>
+  );
+};
