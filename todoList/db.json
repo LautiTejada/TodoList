@@ -1,25 +1,11 @@
 {
   "tareas": [
     {
-      "id": 1,
+      "id": "1",
       "titulo": "Tarea 1",
       "descripcion": "Esta es la descripción de la tarea 1",
       "fecha": "2022-01-01",
       "estado": "pendiente"
-    },
-    {
-      "id": "1744062619910",
-      "titulo": "Tarea 2",
-      "descripcion": "Descripcion de la tarea 2",
-      "fechaLimite": "2025-04-16",
-      "status": "backlog"
-    },
-    {
-      "id": "1744063315494",
-      "titulo": "Tarea 3",
-      "descripcion": "desc tarea 3",
-      "fechaLimite": "2025-04-30",
-      "status": "backlog"
     }
   ]
 }
