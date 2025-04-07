@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { ITarea } from "../types/ITodo";
+import { postNuevaTarea } from "../http/todoList";
 
 interface ITaskStore {
   tareas: ITarea[];
@@ -18,8 +19,12 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   //Agregar una tarea
 
-  agregarUnaTarea: (nuevaTarea) =>
-    set((state) => ({ tareas: [...state.tareas, nuevaTarea] })),
+  agregarUnaTarea: async (nuevaTarea) => {
+    await postNuevaTarea(nuevaTarea); // ✅ guardar en db.json
+    set((state) => ({
+      tareas: [...state.tareas, nuevaTarea], // ✅ reflejar en UI
+    }));
+  },
 
   //Editar una tarea
 

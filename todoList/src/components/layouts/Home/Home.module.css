@@ -3,7 +3,7 @@
   background-color: #007494;
   flex-direction: column;
   width: 25vw;
-  max-height: 200vh;
+  height: 100vh;
 }
 .titleContainer {
   display: flex;

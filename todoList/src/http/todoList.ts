@@ -14,12 +14,10 @@ export const getAllTareas = async () => {
 
 export const postNuevaTarea = async (nuevaTarea: ITarea) => {
   try {
-    const response = await axios.post<ITarea[]>(API_URL, {
-      ...nuevaTarea,
-    });
+    const response = await axios.post<ITarea>(API_URL, nuevaTarea);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("Error al guardar la tarea:", error);
   }
 };
 
