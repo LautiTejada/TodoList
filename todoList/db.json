@@ -1,11 +1,11 @@
 {
   "tareas": [
     {
-      "id": "1",
-      "titulo": "Tarea 1",
-      "descripcion": "Esta es la descripción de la tarea 1",
-      "fecha": "2022-01-01",
-      "estado": "pendiente"
+      "id": "1744065779450",
+      "titulo": "Desarrollar Backlog",
+      "descripcion": "Desarrollar funciones del backlog",
+      "fechaLimite": "2025-04-30",
+      "status": "backlog"
     }
   ]
 }
