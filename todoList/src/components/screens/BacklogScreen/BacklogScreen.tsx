@@ -3,8 +3,15 @@ import { CardTarea } from "../../CardTarea/CardTarea";
 import { Header } from "../../layouts/Header/Header";
 import { Home } from "../../layouts/Home/Home";
 import styles from "./BacklogScreen.module.css";
+import { ModalAgregarTarea } from "../../modals/ModalAgregarTarea/ModalAgregarTarea";
+import { useState } from "react";
 
 export const BacklogScreen = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <>
       <Header />
@@ -15,7 +22,7 @@ export const BacklogScreen = () => {
             <h3>Backlog</h3>
             <div className={styles.tareasHeader}>
               <h4>Tareas en el backlog</h4>
-              <Button variant="primary">
+              <Button variant="primary" onClick={handleOpenModal}>
                 <div className={styles.addTareaButton}>
                   Agregar Tarea
                   <span className="material-symbols-outlined">add_box</span>
@@ -28,6 +35,7 @@ export const BacklogScreen = () => {
           </div>
         </div>
       </div>
+      <ModalAgregarTarea show={showModal} handleClose={handleCloseModal} />
     </>
   );
 };
