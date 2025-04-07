@@ -5,6 +5,7 @@ import { Home } from "../../layouts/Home/Home";
 import styles from "./BacklogScreen.module.css";
 import { ModalAgregarTarea } from "../../modals/ModalAgregarTarea/ModalAgregarTarea";
 import { useState } from "react";
+import { CardTarea } from "../../layouts/ui/CardTarea/CardTarea";
 
 export const BacklogScreen = () => {
   const [showModal, setShowModal] = useState(false);
