@@ -6,6 +6,7 @@ import styles from "./CardTarea.module.css";
 import { ModalVerTarea } from "../../../modals/ModalVerTarea/ModalVerTarea";
 import Swal from "sweetalert2";
 import { eliminarTareaById } from "../../../../http/todoList";
+import { ModalEditarTarea } from "../../../modals/ModalEditarTarea/ModalEditarTarea";
 
 export const CardTarea = () => {
   const tareas = taskStore((state) => state.tareas);
@@ -15,6 +16,15 @@ export const CardTarea = () => {
   const [tareaSeleccionada, setTareaSeleccionada] = useState<ITarea | null>(
     null
   );
+  const [showModalEdit, setShowModalEdit] = useState(false);
+
+  const handleCloseModalEdit = () => setShowModalEdit(false);
+
+  const handleEditarTarea = (tarea: ITarea) => {
+    setTareaSeleccionada(tarea);
+    setShowModalEdit(true); 
+  };
+  
 
   const handleVerTarea = (tarea: ITarea) => {
     setTareaSeleccionada(tarea);
@@ -60,6 +70,7 @@ export const CardTarea = () => {
               <div className={styles.cardDescripcion}>{tarea.descripcion}</div>
 
               <ButtonGroup className="gap-2 mt-2">
+
                 <Button
                   variant="warning"
                   size="sm"
@@ -68,9 +79,18 @@ export const CardTarea = () => {
                 >
                   <span className="material-symbols-outlined">visibility</span>
                 </Button>
-                <Button variant="primary" size="sm" className="rounded-2">
+
+                <Button 
+                    variant="primary" 
+                    size="sm" 
+                    className="rounded-2"
+                    onClick={() => handleEditarTarea(tarea)}
+                  >
                   <span className="material-symbols-outlined">edit</span>
                 </Button>
+
+
+
                 <Button
                   variant="danger"
                   size="sm"
@@ -84,6 +104,8 @@ export const CardTarea = () => {
           </Card.Body>
         </Card>
       ))}
+
+      <ModalEditarTarea show={showModalEdit} tarea={tareaSeleccionada} handleClose={handleCloseModalEdit} ></ModalEditarTarea>
 
       <ModalVerTarea
         show={modalShow}

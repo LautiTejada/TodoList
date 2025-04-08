@@ -5,10 +5,25 @@
   width: 25vw;
   height: 100vh;
 }
+
+.buttonSprint{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5% 0;
+}
+
 .titleContainer {
+  margin-top: 5%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
+
+.titleContainer span{
+  margin-right: 5px;
+}
+
 .listCardContainer {
   background-color: aliceblue;
   display: flex;

@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import styles from "./CardSpring.module.css";
+import styles from "./CardSprint.module.css";
 export const CardSpring = () => {
   return (
     <>

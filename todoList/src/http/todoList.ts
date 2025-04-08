@@ -21,15 +21,14 @@ export const postNuevaTarea = async (nuevaTarea: ITarea) => {
   }
 };
 
-export const editarTarea = async (tareaActualizada: ITarea) => {
+
+export const editarTarea = async (tareaEditada: ITarea) => {
   try {
-    const response = await axios.put<ITarea[]>(
-      `${API_URL} / ${tareaActualizada.id}`,
-      { ...tareaActualizada }
-    );
-    return response.data;
+      const response = await axios.put(`${API_URL}/${tareaEditada.id}`, tareaEditada);
+      return response.data;
   } catch (error) {
-    console.log(error);
+      console.error("Error al realizar la solicitud PUT:", error);
+      throw error;
   }
 };
 
