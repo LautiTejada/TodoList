@@ -28,13 +28,42 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   //Editar una tarea
 
-  editarUnaTarea: (tareaEditada) =>
-    set((state) => {
-      const tareaArreglada = state.tareas.map((tarea) =>
-        tarea.id === tareaEditada.id ? { ...tarea, ...tareaEditada } : tarea
-      );
-      return { tareas: tareaArreglada };
-    }),
+  editarUnaTarea: async (tareaEditada) => {
+    try {
+      const respuesta = await fetch(`http://localhost:3000/tareas/${tareaEditada.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tareaEditada),
+      });
+  
+      if (!respuesta.ok) {
+        throw new Error("No se pudo editar la tarea en el servidor");
+      }
+  
+      const tareaActualizada = await respuesta.json();
+  
+      set((state) => {
+        const tareasActualizadas = state.tareas.map((tarea) =>
+          tarea.id === tareaEditada.id ? tareaActualizada : tarea
+        );
+        return { tareas: tareasActualizadas };
+      });
+    } catch (error) {
+      console.error("Error al editar la tarea:", error);
+      throw error; // Para que lo pueda capturar tu componente si querés mostrar un error
+    }
+  },
+  
+
+  // editarUnaTarea: async (tareaEditada) =>
+  //   set((state) => {
+  //     const tareaArreglada = state.tareas.map((tarea) =>
+  //       tarea.id === tareaEditada.id ? { ...tarea, ...tareaEditada } : tarea
+  //     );
+  //     return { tareas: tareaArreglada };
+  //   }),
 
   //eliminar una tarea
   eliminarUnaTarea: (idTarea) =>

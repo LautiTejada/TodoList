@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import { CardTarea } from "../../layouts/ui/CardTarea/CardTarea";
 import { Header } from "../../layouts/Header/Header";
 import { Home } from "../../layouts/Home/Home";
 import styles from "./BacklogScreen.module.css";
@@ -26,7 +25,7 @@ export const BacklogScreen = () => {
               <Button variant="primary" onClick={handleOpenModal}>
                 <div className={styles.addTareaButton}>
                   Agregar Tarea
-                  <span className="material-symbols-outlined">add_box</span>
+                  <span className="material-symbols-outlined">add</span>
                 </div>
               </Button>
             </div>
