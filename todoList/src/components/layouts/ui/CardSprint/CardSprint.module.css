@@ -1,35 +1,39 @@
 .cardSprintContainer {
   display: flex;
   margin-top: 1rem;
-
   height: 100%;
 }
 
-.cardSprintTitle{
+.cardSprintTitle {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.bodyCard {
+  background-color: #f0f0f0;
+  border: 1px solid;
+  border-radius: 10px;
+  
+}
 
-.cardContainer{
+.cardContainer {
   display: flex;
   flex-direction: column;
   padding-top: 10px;
 }
 
-.cardContainer p{
+.cardContainer p {
   margin: 0;
   padding: 0;
 }
 
-.cardButtons{
+.cardButtons {
   margin: 0 10%;
   display: flex;
   justify-content: space-around;
 }
 
-.cardButtons Button{
-  border: 1px black solid;
+.cardButtons Button {
   display: flex;
   justify-content: center;
   align-items: center;
