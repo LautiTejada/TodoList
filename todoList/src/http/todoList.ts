@@ -17,7 +17,7 @@ export const postNuevaTarea = async (nuevaTarea: ITarea) => {
     const response = await axios.post<ITarea>(API_URL, nuevaTarea);
     return response.data;
   } catch (error) {
-    console.log("Error al guardar la tarea:", error);
+    console.log("Error al crear la tarea:", error);
   }
 };
 
