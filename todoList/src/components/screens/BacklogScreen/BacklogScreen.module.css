@@ -1,21 +1,24 @@
-.backlogContainer {
+.mainBacklog{
   display: flex;
 }
-.tareaContainer {
-  width: 75vw;
-  margin: 1rem;
-  margin-right: 2rem;
+
+.BacklogScreenContainer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-top: 5vh;
 }
-.subtitleContainer {
-  margin: 1rem;
-}
+
 .tareasHeader {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  justify-content:space-between
+
 }
 .addTareaButton {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.4rem;
 }
+
