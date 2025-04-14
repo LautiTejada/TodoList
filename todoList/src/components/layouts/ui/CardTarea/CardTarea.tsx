@@ -95,7 +95,7 @@ export const CardTarea = () => {
                   variant="danger"
                   size="sm"
                   className="rounded-2"
-                  onClick={() => handleEliminarTarea(tarea.id)}
+                  onClick={() => handleEliminarTarea(tarea.id!)}
                 >
                   <span className="material-symbols-outlined">delete</span>
                 </Button>

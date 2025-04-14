@@ -2,10 +2,11 @@ import { Button } from "react-bootstrap";
 import { Header } from "../../layouts/Header/Header";
 import { Home } from "../../layouts/Home/Home";
 import styles from "./BacklogScreen.module.css";
-import layout from "../../layouts/MainLayout.module.css";
 import { ModalAgregarTarea } from "../../modals/ModalAgregarTarea/ModalAgregarTarea";
 import { useState } from "react";
 import { CardTarea } from "../../layouts/ui/CardTarea/CardTarea";
+
+
 
 export const BacklogScreen = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,15 +16,15 @@ export const BacklogScreen = () => {
 
   return (
     <>
-      <Header />
-      <div className={layout.layout}>
-        <div className={layout.sidebar}>
+      
+      <div>
+          <Header />
+        <div className={styles.mainBacklog}>
           <Home />
-        </div>
-
-        <div className={layout.content}>
-          <div className={styles.subtitleContainer}>
-            <h3>Backlog</h3>
+          <div className={styles.BacklogScreenContainer}>
+            <div className={styles.tittleBacklog}>
+              <h3>Backlog</h3>
+            </div>
             <div className={styles.tareasHeader}>
               <h4>Tareas en el backlog</h4>
               <Button variant="primary" onClick={handleOpenModal}>
@@ -33,9 +34,10 @@ export const BacklogScreen = () => {
                 </div>
               </Button>
             </div>
-          </div>
-          <div className={styles.tareaContainer}>
-            <CardTarea />
+            <div className={styles.tareaContainer}>
+              <CardTarea />
+            </div>
+            
           </div>
         </div>
       </div>
