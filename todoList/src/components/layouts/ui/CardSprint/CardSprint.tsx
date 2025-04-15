@@ -7,6 +7,7 @@ import { ModalVerSprint } from "../../../modals/ModalVerSprint/ModalVerSprint";
 import Swal from "sweetalert2";
 import { eliminarSprintById } from "../../../../http/sprintList";
 import { sprintStore } from "../../../../store/sprintStore";
+import { ModalEditarSprint } from "../../../modals/ModalEditarSprint/ModalEditarSprint";
 
 
 interface CardSprintProps {
@@ -26,6 +27,15 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
   const handleShowModalSprint = () => {
     setModalShowSprint(!modalShowSprint);
   };
+
+
+  const [modalEditSprint, setModalEditSprint] = useState(false);
+  const handleModalEditSprint = () => {
+    setModalEditSprint(!modalEditSprint);
+  };
+  
+
+
 
   const eliminarUnSprint = sprintStore((state) => state.eliminarUnSprint);
   
@@ -94,6 +104,10 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
                 <span
                   className="material-symbols-outlined"
                   style={{ color: "black" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleModalEditSprint();
+                  }}
                 >
                   edit
                 </span>
@@ -114,6 +128,7 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
           </Card.Body>
         </Card>
       </div>
+      <ModalEditarSprint show={modalEditSprint} handleClose={handleModalEditSprint} sprint={sprint}/>
       <ModalVerSprint show={modalShowSprint} handleClose={handleShowModalSprint} sprint={sprint} ></ModalVerSprint>
       
     </>
