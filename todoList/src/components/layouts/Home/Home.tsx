@@ -3,6 +3,7 @@ import { useSprint } from "../../../hooks/useSprint";
 import { ISprint } from "../../../types/ITodo";
 import { CardSprint } from "../ui/CardSprint/CardSprint";
 import styles from "./Home.module.css";
+import { Button } from "react-bootstrap";
 
 export const Home = () => {
 
@@ -25,6 +26,14 @@ export const Home = () => {
           <h3>Lista de Sprint</h3>
           
         </div>
+        
+        <div className={styles.addSprintButton}>
+          <Button variant="primary">
+            Agregar Sprint
+            <span className="material-symbols-outlined">add</span>
+          </Button>
+        </div>
+        
         <div className={styles.cardContainer}>
             {sprints.map((sprint : ISprint) => (
               <CardSprint key={sprint.id} sprint={sprint}/>
