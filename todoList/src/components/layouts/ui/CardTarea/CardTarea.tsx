@@ -1,15 +1,19 @@
+// CardTarea.tsx
 import { useState } from "react";
 import { Card, Button, ButtonGroup } from "react-bootstrap";
-import { taskStore } from "../../../../store/todoStore";
 import { ITarea } from "../../../../types/ITodo";
 import styles from "./CardTarea.module.css";
 import { ModalVerTarea } from "../../../modals/ModalVerTarea/ModalVerTarea";
 import Swal from "sweetalert2";
 import { eliminarTareaById } from "../../../../http/todoList";
 import { ModalEditarTarea } from "../../../modals/ModalEditarTarea/ModalEditarTarea";
+import { taskStore } from "../../../../store/todoStore";
 
-export const CardTarea = () => {
-  const tareas = taskStore((state) => state.tareas);
+interface Props {
+  tarea: ITarea;
+}
+
+export const CardTarea = ({ tarea }: Props) => {
   const eliminarUnaTarea = taskStore((state) => state.eliminarUnaTarea);
 
   const [modalShow, setModalShow] = useState(false);
@@ -20,13 +24,12 @@ export const CardTarea = () => {
 
   const handleCloseModalEdit = () => setShowModalEdit(false);
 
-  const handleEditarTarea = (tarea: ITarea) => {
+  const handleEditarTarea = () => {
     setTareaSeleccionada(tarea);
-    setShowModalEdit(true); 
+    setShowModalEdit(true);
   };
-  
 
-  const handleVerTarea = (tarea: ITarea) => {
+  const handleVerTarea = () => {
     setTareaSeleccionada(tarea);
     setModalShow(true);
   };
@@ -50,8 +53,8 @@ export const CardTarea = () => {
 
     if (resultado.isConfirmed) {
       try {
-        await eliminarTareaById(id); // eliminar de la API/db.json
-        eliminarUnaTarea(id); // eliminar del store
+        await eliminarTareaById(id);
+        eliminarUnaTarea(id);
         Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
       } catch (error) {
         Swal.fire("Error", "No se pudo eliminar la tarea.", "error");
@@ -59,59 +62,55 @@ export const CardTarea = () => {
       }
     }
   };
+
   return (
-    <div className={styles.tareasContainer}>
-      {tareas.map((tarea: ITarea) => (
-        <Card key={tarea.id} className={styles.card}>
-          <Card.Body className={styles.cardBody}>
-            <div className={styles.containerCard}>
-              <h5 className={styles.cardTitle}>{tarea.titulo}</h5>
+    <>
+      <Card className={styles.card}>
+        <Card.Body className={styles.cardBody}>
+          <div className={styles.containerCard}>
+            <h5 className={styles.cardTitle}>{tarea.titulo}</h5>
+            <div className={styles.cardDescripcion}>{tarea.descripcion}</div>
 
-              <div className={styles.cardDescripcion}>{tarea.descripcion}</div>
+            <ButtonGroup className="gap-2 mt-2">
+              <Button
+                variant="warning"
+                size="sm"
+                className="rounded-2"
+                onClick={handleVerTarea}
+              >
+                <span className="material-symbols-outlined">visibility</span>
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                className="rounded-2"
+                onClick={handleEditarTarea}
+              >
+                <span className="material-symbols-outlined">edit</span>
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                className="rounded-2"
+                onClick={() => handleEliminarTarea(tarea.id!)}
+              >
+                <span className="material-symbols-outlined">delete</span>
+              </Button>
+            </ButtonGroup>
+          </div>
+        </Card.Body>
+      </Card>
 
-              <ButtonGroup className="gap-2 mt-2">
-
-                <Button
-                  variant="warning"
-                  size="sm"
-                  className="rounded-2"
-                  onClick={() => handleVerTarea(tarea)}
-                >
-                  <span className="material-symbols-outlined">visibility</span>
-                </Button>
-
-                <Button 
-                    variant="primary" 
-                    size="sm" 
-                    className="rounded-2"
-                    onClick={() => handleEditarTarea(tarea)}
-                  >
-                  <span className="material-symbols-outlined">edit</span>
-                </Button>
-
-
-
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="rounded-2"
-                  onClick={() => handleEliminarTarea(tarea.id!)}
-                >
-                  <span className="material-symbols-outlined">delete</span>
-                </Button>
-              </ButtonGroup>
-            </div>
-          </Card.Body>
-        </Card>
-      ))}
-
-      <ModalEditarTarea show={showModalEdit} tarea={tareaSeleccionada} handleClose={handleCloseModalEdit} ></ModalEditarTarea>
-
+      <ModalEditarTarea
+        show={showModalEdit}
+        tarea={tareaSeleccionada}
+        handleClose={handleCloseModalEdit}
+      />
       <ModalVerTarea
         show={modalShow}
         handleClose={handleClose}
         tarea={tareaSeleccionada}
       />
-    </div>
+    </>
   );
 };

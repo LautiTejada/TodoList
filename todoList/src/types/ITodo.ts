@@ -3,7 +3,7 @@ export interface ITarea {
   titulo: string;
   descripcion: string;
   fechaLimite: string;
-  status: "backlog" | "en-progreso" | "completada";
+  status: "backlog" | "pendiente" | "en-progreso" | "completada";
 }
 
 export interface ISprint {
