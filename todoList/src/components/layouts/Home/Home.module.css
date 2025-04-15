@@ -37,3 +37,14 @@
 .cardContainer{
   margin-bottom: 5%;  
 }
+
+.addSprintButton{
+  margin: 2% 0 2% 0;
+}
+
+.addSprintButton Button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
