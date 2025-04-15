@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSprint } from "../../../hooks/useSprint";
 import { ISprint } from "../../../types/ITodo";
 import { CardSprint } from "../ui/CardSprint/CardSprint";
 import styles from "./Home.module.css";
 import { Button } from "react-bootstrap";
+import { ModalAgregarSprint } from "../../modals/ModalAgregarSprint/ModalAgregarSprint";
 
 export const Home = () => {
 
@@ -13,7 +14,13 @@ export const Home = () => {
     getSprints(); 
   }, [getSprints]);
 
+  const [modalAgregarSprint, setModalAgregarSprint] = useState(false);
+      const handleModalAgregarSprint = () => {
+        setModalAgregarSprint(!modalAgregarSprint);
+      };
+
   return (
+    <>
     <div className={styles.navBacklog}>
       <div className={styles.listCardContainer}>
         <div className={styles.titleContainer}>
@@ -28,7 +35,9 @@ export const Home = () => {
         </div>
         
         <div className={styles.addSprintButton}>
-          <Button variant="primary">
+          <Button variant="primary"
+          onClick={handleModalAgregarSprint}
+          >
             Agregar Sprint
             <span className="material-symbols-outlined">add</span>
           </Button>
@@ -41,5 +50,8 @@ export const Home = () => {
         </div>  
       </div>
     </div>
+    <ModalAgregarSprint show={modalAgregarSprint} handleClose={handleModalAgregarSprint}></ModalAgregarSprint>
+    
+    </>
   );
 };

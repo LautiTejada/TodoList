@@ -2,6 +2,11 @@ import { Button, Card } from "react-bootstrap";
 import styles from "./CardSprint.module.css";
 import { ISprint } from "../../../../types/ITodo";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { ModalVerSprint } from "../../../modals/ModalVerSprint/ModalVerSprint";
+import Swal from "sweetalert2";
+import { eliminarSprintById } from "../../../../http/sprintList";
+import { sprintStore } from "../../../../store/sprintStore";
 
 
 interface CardSprintProps {
@@ -10,16 +15,47 @@ interface CardSprintProps {
 
 
 export const CardSprint = ({sprint} : CardSprintProps) => {
-  const navigate = useNavigate(); // Hook para navegar
 
+  const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate(`/sprints/${sprint.id}`, { state: { sprint } }); // Pasar el sprint como estado
+    navigate(`/sprints/${sprint.id}`, { state: { sprint } });
   };
+
+
+  const [modalShowSprint, setModalShowSprint] = useState(false);
+  const handleShowModalSprint = () => {
+    setModalShowSprint(!modalShowSprint);
+  };
+
+  const eliminarUnSprint = sprintStore((state) => state.eliminarUnSprint);
   
+  const handleEliminarTarea = async (id: string) => {
+      const resultado = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡Esta acción no se puede deshacer!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+      });
+  
+      if (resultado.isConfirmed) {
+        try {
+          await eliminarSprintById(id); 
+          eliminarUnSprint(id); 
+          Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
+        } catch (error) {
+          Swal.fire("Error", "No se pudo eliminar la tarea.", "error");
+          console.error(error);
+        }
+      }
+    };
+  
+  
+
   return (
-
-
-
     <>
       <div className={styles.cardSprintContainer}>
         <Card
@@ -46,6 +82,10 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
                 <span
                   className="material-symbols-outlined"
                   style={{ color: "black" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShowModalSprint();
+                  }}
                 >
                   visibility
                 </span>
@@ -62,6 +102,10 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
                 <span
                   className="material-symbols-outlined"
                   style={{ color: "black" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEliminarTarea(sprint.id!)
+                  }}
                 >
                   delete
                 </span>
@@ -70,6 +114,9 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
           </Card.Body>
         </Card>
       </div>
+      <ModalVerSprint show={modalShowSprint} handleClose={handleShowModalSprint} sprint={sprint} ></ModalVerSprint>
+      
     </>
   );
-};
+  }; 
+
