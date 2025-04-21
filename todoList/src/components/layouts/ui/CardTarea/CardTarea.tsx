@@ -8,8 +8,12 @@ import Swal from "sweetalert2";
 import { eliminarTareaById } from "../../../../http/todoList";
 import { ModalEditarTarea } from "../../../modals/ModalEditarTarea/ModalEditarTarea";
 
-export const CardTarea = () => {
-  const tareas = taskStore((state) => state.tareas);
+interface cardTareaProps {
+  tarea: ITarea;
+}
+
+export const CardTarea = ({tarea}:cardTareaProps) => {
+
   const eliminarUnaTarea = taskStore((state) => state.eliminarUnaTarea);
 
   const [modalShow, setModalShow] = useState(false);
@@ -61,7 +65,6 @@ export const CardTarea = () => {
   };
   return (
     <div className={styles.tareasContainer}>
-      {tareas.map((tarea: ITarea) => (
         <Card key={tarea.id} className={styles.card}>
           <Card.Body className={styles.cardBody}>
             <div className={styles.containerCard}>
@@ -103,9 +106,12 @@ export const CardTarea = () => {
             </div>
           </Card.Body>
         </Card>
-      ))}
 
-      <ModalEditarTarea show={showModalEdit} tarea={tareaSeleccionada} handleClose={handleCloseModalEdit} ></ModalEditarTarea>
+      <ModalEditarTarea 
+        show={showModalEdit} 
+        tarea={tareaSeleccionada} 
+        handleClose={handleCloseModalEdit}
+      />
 
       <ModalVerTarea
         show={modalShow}

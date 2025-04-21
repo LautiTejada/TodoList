@@ -6,8 +6,8 @@ function App() {
   const setArrayTareas = taskStore((state) => state.setArrayTareas);
 
   useEffect(() => {
-    // Simular carga desde db.json
-    fetch("/db.json")
+
+    fetch("http://localhost:3000/backlog")
       .then((res) => res.json())
       .then((data) => setArrayTareas(data.tareas))
       .catch(console.error);

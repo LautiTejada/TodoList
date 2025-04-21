@@ -84,8 +84,8 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
               {sprint.nombre}{" "}
             </Card.Title>
             <Card.Text className={styles.cardContainer}>
-              <p>Fecha de inicio: {sprint.fechaInicio}</p>
-              <p>Fecha de cierre: {sprint.fechaCierre}</p>
+              <span>Fecha de inicio: {sprint.fechaInicio}</span>
+              <span>Fecha de cierre: {sprint.fechaCierre}</span>
             </Card.Text>
             <div className={styles.cardButtons}>
               <Button className="d-flex align-items-center" variant="warning">
