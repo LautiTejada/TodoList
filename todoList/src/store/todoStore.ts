@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { ITarea } from "../types/ITodo";
-import { postNuevaTarea } from "../http/todoList";
+import { editarTarea, postNuevaTarea } from "../http/todoList";
 
 interface ITaskStore {
   tareas: ITarea[];
@@ -30,30 +30,14 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   editarUnaTarea: async (tareaEditada) => {
     try {
-      const respuesta = await fetch(`http://localhost:3000/tareas/${tareaEditada.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(tareaEditada),
-      });
-  
-      if (!respuesta.ok) {
-        throw new Error("No se pudo editar la tarea en el servidor");
-      }
-  
-      const tareaActualizada = await respuesta.json();
-  
-      set((state) => {
-        const tareasActualizadas = state.tareas.map((tarea) =>
-          tarea.id === tareaEditada.id ? tareaActualizada : tarea
-        );
-        return { tareas: tareasActualizadas };
-      });
+      await editarTarea(tareaEditada); 
+      set((state) => ({
+        tareas: state.tareas.map((t) =>(t.id === tareaEditada.id ? tareaEditada : t)), 
+      }))
     } catch (error) {
       console.error("Error al editar la tarea:", error);
-      throw error; // Para que lo pueda capturar tu componente si querés mostrar un error
-    }
+      throw error; // Para que lo pueda capturar tu componente si querés mostrar un error
+    } 
   },
   
 

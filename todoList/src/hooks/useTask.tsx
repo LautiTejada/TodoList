@@ -40,15 +40,16 @@ export const useTask = () => {
     }
   };
 
-    const putTareaEditar = async (tareaEditada: ITarea) => {
-      const estadoPrevio = tareas.find((el) => el.id === tareaEditada.id);
-      editarUnaTarea(tareaEditada); // Actualiza el estado local
-      try {
-          await editarTarea(tareaEditada); // Actualiza en JSON Server
-      } catch (error) {
-          console.error("Error al editar la tarea en JSON Server:", error);
-          if (estadoPrevio) editarUnaTarea(estadoPrevio); // Revertir cambios locales
-      }
+  const putTareaEditar = async (tareaEditada: ITarea) => {
+    const estadoPrevio = tareas.find((el) => el.id === tareaEditada.id);
+    // Actualiza el estado local
+    try {
+      await editarTarea(tareaEditada);
+      editarUnaTarea(tareaEditada); // Actualiza en JSON Server
+    } catch (error) {
+      console.error("Error al editar la tarea en JSON Server:", error);
+      if (estadoPrevio) editarUnaTarea(estadoPrevio); // Revertir cambios locales
+    }
   };
 
   const eliminarTarea = async (idTarea: string) => {
