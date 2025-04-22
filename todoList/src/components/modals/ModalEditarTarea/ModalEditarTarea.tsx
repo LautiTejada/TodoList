@@ -37,7 +37,7 @@ export const ModalEditarTarea = ({ tarea, show, handleClose }: Props) => {
             titulo ,
             descripcion,
             fechaLimite,
-            status: tarea?.status || "backlog",
+            status: tarea?.status || "pendiente",
         };
 
         try {

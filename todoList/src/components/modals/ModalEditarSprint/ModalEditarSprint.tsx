@@ -18,12 +18,12 @@ export const ModalEditarSprint = ({show, handleClose, sprint}: ModalEditarSprint
     const [fechaCierre, setFechaCierre] = useState(sprint.fechaCierre || "");
 
     useEffect(() => {
-        if (sprint) {
+        if (show && sprint) {
             setNombre(sprint.nombre);
             setFechaInicio(sprint.fechaInicio);
             setFechaCierre(sprint.fechaCierre);
         }
-    }, [sprint]);
+    }, [show, sprint]);
 
     const handleEditSprint = async (e: React.FormEvent) => {
         e.preventDefault();

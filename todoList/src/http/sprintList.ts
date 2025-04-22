@@ -32,10 +32,15 @@ export const editarSprint = async (sprintEditado: ISprint) => {
         const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
         const sprints = response.data.sprints;
 
-        const updatedSprints = sprints.map(s => s.id === sprintEditado.id ? sprintEditado : s);
+        const updatedSprints = sprints.findIndex((s: ISprint) => s.id === sprintEditado.id);
+
+        if (updatedSprints === -1) {
+        throw new Error(`Sprint con id ${sprintEditado.id} no encontrado`);
+}
 
         await axios.put(API_URL, { sprints: updatedSprints });
         return sprintEditado;
+
     } catch (error) {
         console.log("Error al editar el sprint", error);
         throw error;
