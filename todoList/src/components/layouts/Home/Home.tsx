@@ -11,6 +11,7 @@ export const Home = () => {
   const { sprints, getSprints } = useSprint();
 
   useEffect(() => {
+    console.log("Sprints cargadas:", sprints);
     getSprints(); 
   }, [getSprints]);
 
