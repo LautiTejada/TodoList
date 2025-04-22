@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import { ISprint } from "../types/ITodo";
-import { postNuevoSprint } from "../http/sprintList";
+import { editarSprint, postNuevoSprint } from "../http/sprintList";
 
 interface ISprintStore {
   sprints: ISprint[];
+  currentSprint: ISprint | null;
+  setCurrentSprint: (sprint: ISprint | null) => void;
   setSprintArray: (arrayDesprint: ISprint[]) => void;
   agregarUnSprint: (nuevoSprint: ISprint) => void;
   editarUnSprint: (sprintEditado: ISprint) => void;
@@ -12,7 +14,9 @@ interface ISprintStore {
 
 export const sprintStore = create<ISprintStore>((set) => ({
   sprints: [],
+  currentSprint: null,
 
+  setCurrentSprint: (sprint) => set({ currentSprint: sprint }),
   // Agregar array de sprints
 
   setSprintArray: (arrayDesprint) => set(() => ({ sprints: arrayDesprint })),
@@ -30,30 +34,21 @@ export const sprintStore = create<ISprintStore>((set) => ({
 
   editarUnSprint: async (sprintEditado) => {
     try {
-      const respuesta = await fetch(
-        `http://localhost:3000/sprints/${sprintEditado.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(sprintEditado),
-        }
-      );
+      const updateSprint = await editarSprint(sprintEditado);
 
-      if (!respuesta.ok) {
-        throw new Error("No se pudo editar el sprint en el servidor");
-      }
-
-      const sprintActualizado = await respuesta.json();
-
-      set((state) => {
-        const sprintsActualizadas = state.sprints.map((sprint) =>
-          sprint.id === sprintEditado.id ? sprintActualizado : sprint
-        );
-        return { sprints: sprintsActualizadas };
-      });
-    } catch (error) {}
+      set((state) => ({
+        sprints: state.sprints.map((s) =>
+          s.id === updateSprint.id ? updateSprint : s
+        ),
+        currentSprint:
+          state.currentSprint?.id === updateSprint.id
+            ? updateSprint
+            : state.currentSprint,
+      }));
+    } catch (error) {
+      console.error("Error al guardar el sprint:", error);
+      throw error;
+    }
   },
 
   //Eliminar un sprint
