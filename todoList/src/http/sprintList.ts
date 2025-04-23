@@ -32,12 +32,12 @@ export const editarSprint = async (sprintEditado: ISprint) => {
         const response = await axios.get<{ sprints: ISprint[] }>(API_URL);
         const sprints = response.data.sprints;
 
-        const updatedSprints = sprints.findIndex((s: ISprint) => s.id === sprintEditado.id);
+        // Actualizar el sprint en el array
+        const updatedSprints = sprints.map((s: ISprint) =>
+            s.id === sprintEditado.id ? sprintEditado : s
+        );
 
-        if (updatedSprints === -1) {
-        throw new Error(`Sprint con id ${sprintEditado.id} no encontrado`);
-}
-
+        // Enviar el array actualizado al servidor
         await axios.put(API_URL, { sprints: updatedSprints });
         return sprintEditado;
 

@@ -14,9 +14,9 @@
     "sprints": [
       {
         "id": "1",
-        "nombre": "Sprint 1",
-        "fechaInicio": "12-04-2025",
-        "fechaCierre": "28-04-2025",
+        "nombre": "Sprint 2",
+        "fechaInicio": "2025-04-12",
+        "fechaCierre": "2025-04-15",
         "tareas": [
           {
             "id": "1744065779451",
@@ -25,6 +25,8 @@
             "fechaLimite": "2025-04-30",
             "status": "pendiente"
           }
-      ]
+        ]
+      }
+    ]
   }
-  ]}}
+}
