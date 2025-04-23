@@ -1,32 +1,8 @@
 {
   "backlog": {
-    "tareas": [
-      {
-        "id": "1744065779450",
-        "titulo": "Desarrollar Backlog 2",
-        "descripcion": "Desarrollar funciones del backlog",
-        "fechaLimite": "2025-04-30",
-        "status": "pendiente"
-      }
-    ]
+    "tareas": []
   },
   "sprintList": {
-    "sprints": [
-      {
-        "id": "1",
-        "nombre": "Sprint 2",
-        "fechaInicio": "2025-04-12",
-        "fechaCierre": "2025-04-15",
-        "tareas": [
-          {
-            "id": "1744065779451",
-            "titulo": "Desarrollar Backlog",
-            "descripcion": "Desarrollar funciones del backlog",
-            "fechaLimite": "2025-04-30",
-            "status": "pendiente"
-          }
-        ]
-      }
-    ]
+    "sprints": []
   }
 }

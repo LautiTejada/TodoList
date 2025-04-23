@@ -8,62 +8,55 @@ import Swal from "sweetalert2";
 import { eliminarSprintById } from "../../../../http/sprintList";
 import { sprintStore } from "../../../../store/sprintStore";
 import { ModalEditarSprint } from "../../../modals/ModalEditarSprint/ModalEditarSprint";
-
+import { ModalAsociarTareaSprint } from "../../../modals/ModalAsociarTareaSprint/ModalAsociarTareaSprint";
 
 interface CardSprintProps {
-  sprint : ISprint
+  sprint: ISprint;
 }
 
-
-export const CardSprint = ({sprint} : CardSprintProps) => {
-
+export const CardSprint = ({ sprint }: CardSprintProps) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(`/sprints/${sprint.id}`, { state: { sprint } });
   };
-
 
   const [modalShowSprint, setModalShowSprint] = useState(false);
   const handleShowModalSprint = () => {
     setModalShowSprint(!modalShowSprint);
   };
 
-
   const [modalEditSprint, setModalEditSprint] = useState(false);
   const handleModalEditSprint = () => {
     setModalEditSprint(!modalEditSprint);
   };
-  
-
-
 
   const eliminarUnSprint = sprintStore((state) => state.eliminarUnSprint);
-  
+  const [modalAsociarTarea, setModalAsociarTarea] = useState(false);
+  const handleModalAsociarTarea = () =>
+    setModalAsociarTarea(!modalAsociarTarea);
   const handleEliminarTarea = async (id: string) => {
-      const resultado = await Swal.fire({
-        title: "¿Estás seguro?",
-        text: "¡Esta acción no se puede deshacer!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar",
-      });
-  
-      if (resultado.isConfirmed) {
-        try {
-          await eliminarSprintById(id); 
-          eliminarUnSprint(id); 
-          Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
-        } catch (error) {
-          Swal.fire("Error", "No se pudo eliminar la tarea.", "error");
-          console.error(error);
-        }
+    const resultado = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡Esta acción no se puede deshacer!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (resultado.isConfirmed) {
+      try {
+        await eliminarSprintById(id);
+        eliminarUnSprint(id);
+        Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
+      } catch (error) {
+        Swal.fire("Error", "No se pudo eliminar la tarea.", "error");
+        console.error(error);
       }
-    };
-  
-  
+    }
+  };
 
   return (
     <>
@@ -76,7 +69,6 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
           }}
           className="mb-2"
           onClick={handleNavigate}
-          
         >
           <Card.Body className={styles.bodyCard}>
             <Card.Title className={styles.cardSprintTitle}>
@@ -118,20 +110,40 @@ export const CardSprint = ({sprint} : CardSprintProps) => {
                   style={{ color: "black" }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleEliminarTarea(sprint.id!)
+                    handleEliminarTarea(sprint.id!);
                   }}
                 >
                   delete
                 </span>
               </Button>
+              <Button
+                className="d-flex align-items-center"
+                variant="success"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleModalAsociarTarea();
+                }}
+              ></Button>
             </div>
           </Card.Body>
         </Card>
       </div>
-      <ModalEditarSprint show={modalEditSprint} handleClose={handleModalEditSprint} sprint={sprint}/>
-      <ModalVerSprint show={modalShowSprint} handleClose={handleShowModalSprint} sprint={sprint} ></ModalVerSprint>
-      
+      <ModalEditarSprint
+        show={modalEditSprint}
+        handleClose={handleModalEditSprint}
+        sprint={sprint}
+      />
+      <ModalVerSprint
+        show={modalShowSprint}
+        handleClose={handleShowModalSprint}
+        sprint={sprint}
+      ></ModalVerSprint>
+      <ModalAsociarTareaSprint
+        show={modalAsociarTarea}
+        handleClose={handleModalAsociarTarea}
+        sprintId={sprint.id}
+      />
+      ;
     </>
   );
-  }; 
-
+};

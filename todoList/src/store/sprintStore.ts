@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { ISprint } from "../types/ITodo";
+import { ISprint, ITarea } from "../types/ITodo";
 import { editarSprint, postNuevoSprint } from "../http/sprintList";
+import axios from "axios";
 
 interface ISprintStore {
   sprints: ISprint[];
@@ -60,4 +61,55 @@ export const sprintStore = create<ISprintStore>((set) => ({
       );
       return { sprints: arregloSprint };
     }),
+
+  asociarTareaASprint: (idSprint: string, tarea: ITarea) =>
+    set((state) => {
+      const sprintsActualizados = state.sprints.map((sprint) =>
+        sprint.id === idSprint
+          ? {
+              ...sprint,
+              tareas: [...sprint.tareas, { ...tarea, status: "pendiente" }],
+            }
+          : sprint
+      );
+      return { sprints: sprintsActualizados };
+    }),
+  cambiarEstadoTarea: async (
+    idSprint: string,
+    idTarea: string,
+    nuevoEstado: "pendiente" | "en-progreso" | "completada"
+  ) => {
+    try {
+      // Actualizar el backend
+      const response = await axios.get<{ sprints: ISprint[] }>(
+        "http://localhost:3000/sprintList"
+      );
+      const sprints = response.data.sprints;
+
+      const sprint = sprints.find((s) => s.id === idSprint);
+      if (sprint) {
+        const tarea = sprint.tareas.find((t) => t.id === idTarea);
+        if (tarea) {
+          tarea.status = nuevoEstado; // Actualizar el estado de la tarea
+          await axios.put("http://localhost:3000/sprintList", { sprints }); // Guardar en el backend
+        }
+      }
+
+      // Actualizar el estado local
+      set((state) => {
+        const sprintsActualizados = state.sprints.map((sprint) => {
+          if (sprint.id === idSprint) {
+            const tareasActualizadas = sprint.tareas.map((tarea) =>
+              tarea.id === idTarea ? { ...tarea, status: nuevoEstado } : tarea
+            );
+            return { ...sprint, tareas: tareasActualizadas };
+          }
+          return sprint;
+        });
+        return { sprints: sprintsActualizados };
+      });
+    } catch (error) {
+      console.error("Error al cambiar el estado de la tarea:", error);
+    }
+  },
 }));
