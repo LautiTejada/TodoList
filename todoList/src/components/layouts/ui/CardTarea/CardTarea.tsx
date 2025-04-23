@@ -56,8 +56,22 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
 
     if (resultado.isConfirmed) {
       try {
-        await eliminarTareaById(id); // eliminar de la API/db.json
-        eliminarUnaTarea(id); // eliminar del store
+        // Eliminar la tarea del backend
+        const response = await axios.get<{ sprints: ISprint[] }>(
+          "http://localhost:3000/sprintList"
+        );
+        const sprints = response.data.sprints;
+
+        const sprint = sprints.find((s) => s.id === sprintId);
+        if (sprint) {
+          sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
+          await axios.put("http://localhost:3000/sprintList", { sprints });
+        }
+
+        // Actualizar el estado local
+        eliminarUnaTarea(id); // Eliminar del backlog si aplica
+        sprintStore.getState().eliminarTareaDeSprint(sprintId!, id); // Eliminar del sprint
+
         Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
       } catch (error) {
         Swal.fire("Error", "No se pudo eliminar la tarea.", "error");

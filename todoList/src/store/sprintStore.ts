@@ -112,4 +112,30 @@ export const sprintStore = create<ISprintStore>((set) => ({
       console.error("Error al cambiar el estado de la tarea:", error);
     }
   },
+  eliminarTareaDeSprint: (idSprint: string, idTarea: string) =>
+    set((state) => {
+      const sprintsActualizados = state.sprints.map((sprint) => {
+        if (sprint.id === idSprint) {
+          const tareasActualizadas = sprint.tareas.filter(
+            (tarea) => tarea.id !== idTarea
+          );
+          return { ...sprint, tareas: tareasActualizadas };
+        }
+        return sprint;
+      });
+      return { sprints: sprintsActualizados };
+    }),
+  editarTareaEnSprint: (idSprint: string, tareaEditada: ITarea) =>
+    set((state) => {
+      const sprintsActualizados = state.sprints.map((sprint) => {
+        if (sprint.id === idSprint) {
+          const tareasActualizadas = sprint.tareas.map((tarea) =>
+            tarea.id === tareaEditada.id ? tareaEditada : tarea
+          );
+          return { ...sprint, tareas: tareasActualizadas };
+        }
+        return sprint;
+      });
+      return { sprints: sprintsActualizados };
+    }),
 }));
