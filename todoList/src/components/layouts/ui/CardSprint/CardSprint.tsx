@@ -123,7 +123,9 @@ export const CardSprint = ({ sprint }: CardSprintProps) => {
                   e.stopPropagation();
                   handleModalAsociarTarea();
                 }}
-              ></Button>
+              >
+                <span className="material-symbols-outlined">send</span>
+              </Button>
             </div>
           </Card.Body>
         </Card>
@@ -143,7 +145,6 @@ export const CardSprint = ({ sprint }: CardSprintProps) => {
         handleClose={handleModalAsociarTarea}
         sprintId={sprint.id}
       />
-      ;
     </>
   );
 };
