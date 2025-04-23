@@ -79,6 +79,20 @@ export const sprintStore = create<ISprintStore>((set) => ({
     idTarea: string,
     nuevoEstado: "pendiente" | "en-progreso" | "completada"
   ) => {
+    // Actualizar el estado local inmediatamente
+    set((state) => {
+      const sprintsActualizados = state.sprints.map((sprint) => {
+        if (sprint.id === idSprint) {
+          const tareasActualizadas = sprint.tareas.map((tarea) =>
+            tarea.id === idTarea ? { ...tarea, status: nuevoEstado } : tarea
+          );
+          return { ...sprint, tareas: tareasActualizadas };
+        }
+        return sprint;
+      });
+      return { sprints: sprintsActualizados };
+    });
+
     try {
       // Actualizar el backend
       const response = await axios.get<{ sprints: ISprint[] }>(
@@ -94,20 +108,6 @@ export const sprintStore = create<ISprintStore>((set) => ({
           await axios.put("http://localhost:3000/sprintList", { sprints }); // Guardar en el backend
         }
       }
-
-      // Actualizar el estado local
-      set((state) => {
-        const sprintsActualizados = state.sprints.map((sprint) => {
-          if (sprint.id === idSprint) {
-            const tareasActualizadas = sprint.tareas.map((tarea) =>
-              tarea.id === idTarea ? { ...tarea, status: nuevoEstado } : tarea
-            );
-            return { ...sprint, tareas: tareasActualizadas };
-          }
-          return sprint;
-        });
-        return { sprints: sprintsActualizados };
-      });
     } catch (error) {
       console.error("Error al cambiar el estado de la tarea:", error);
     }
