@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 import { CardTarea } from "../../layouts/ui/CardTarea/CardTarea";
 import { taskStore } from "../../../store/todoStore";
 
-
-
 export const BacklogScreen = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -23,9 +21,8 @@ export const BacklogScreen = () => {
 
   return (
     <>
-      
       <div>
-          <Header />
+        <Header />
         <div className={styles.mainBacklog}>
           <Home />
           <div className={styles.BacklogScreenContainer}>
@@ -42,13 +39,10 @@ export const BacklogScreen = () => {
               </Button>
             </div>
             <div className={styles.tareaContainer}>
-              {
-                tareas.map((tarea) => (
-                  <CardTarea key={tarea.id} tarea={tarea} />
-                ))
-              }
+              {tareas.map((tarea) => (
+                <CardTarea key={tarea.id} tarea={tarea} />
+              ))}
             </div>
-            
           </div>
         </div>
       </div>

@@ -30,16 +30,17 @@ export const taskStore = create<ITaskStore>((set) => ({
 
   editarUnaTarea: async (tareaEditada) => {
     try {
-      await editarTarea(tareaEditada); 
+      await editarTarea(tareaEditada);
       set((state) => ({
-        tareas: state.tareas.map((t) =>(t.id === tareaEditada.id ? tareaEditada : t)), 
-      }))
+        tareas: state.tareas.map((t) =>
+          t.id === tareaEditada.id ? tareaEditada : t
+        ),
+      }));
     } catch (error) {
       console.error("Error al editar la tarea:", error);
       throw error; // Para que lo pueda capturar tu componente si querés mostrar un error
-    } 
+    }
   },
-  
 
   // editarUnaTarea: async (tareaEditada) =>
   //   set((state) => {
@@ -57,4 +58,8 @@ export const taskStore = create<ITaskStore>((set) => ({
       );
       return { tareas: arregloTareas };
     }),
+  eliminarTareaDelBacklog: (idTarea: string) =>
+    set((state) => ({
+      tareas: state.tareas.filter((tarea) => tarea.id !== idTarea),
+    })),
 }));
