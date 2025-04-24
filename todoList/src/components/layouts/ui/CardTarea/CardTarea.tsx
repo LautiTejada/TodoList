@@ -56,21 +56,26 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
 
     if (resultado.isConfirmed) {
       try {
-        // Eliminar la tarea del backend
-        const response = await axios.get<{ sprints: ISprint[] }>(
-          "http://localhost:3000/sprintList"
-        );
-        const sprints = response.data.sprints;
+        if (sprintId) {
+          // Eliminar la tarea del sprint
+          const response = await axios.get<{ sprints: ISprint[] }>(
+            "http://localhost:3000/sprintList"
+          );
+          const sprints = response.data.sprints;
 
-        const sprint = sprints.find((s) => s.id === sprintId);
-        if (sprint) {
-          sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
-          await axios.put("http://localhost:3000/sprintList", { sprints });
+          const sprint = sprints.find((s) => s.id === sprintId);
+          if (sprint) {
+            sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
+            await axios.put("http://localhost:3000/sprintList", { sprints });
+          }
+
+          // Actualizar el estado local
+          sprintStore.getState().eliminarTareaDeSprint(sprintId, id);
+        } else {
+          // Eliminar la tarea del backlog
+          await eliminarTareaById(id);
+          eliminarUnaTarea(id);
         }
-
-        // Actualizar el estado local
-        eliminarUnaTarea(id); // Eliminar del backlog si aplica
-        sprintStore.getState().eliminarTareaDeSprint(sprintId!, id); // Eliminar del sprint
 
         Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
       } catch (error) {
@@ -158,7 +163,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
         show={showModalEdit}
         tarea={tareaSeleccionada}
         handleClose={handleCloseModalEdit}
-        sprintId={sprintId} 
+        sprintId={sprintId}
       />
 
       <ModalVerTarea

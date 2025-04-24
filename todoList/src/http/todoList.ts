@@ -56,21 +56,24 @@ export const editarTarea = async (tareaEditada: ITarea): Promise<ITarea> => {
   }
 };
 
-
 // Eliminar una tarea por ID
-export const eliminarTareaById = async (idTarea: string): Promise<string> => {
+export const eliminarTareaById = async (idTarea: string): Promise<void> => {
   try {
     // Obtener las tareas actuales
-    const response = await axios.get<{ tareas: ITarea[] }>(API_URL);
+    const response = await axios.get<{ tareas: ITarea[] }>(
+      "http://localhost:3000/backlog"
+    );
     const tareasActuales = response.data.tareas;
 
     // Filtrar las tareas para eliminar la tarea con el ID especificado
-    const tareasActualizadas = tareasActuales.filter((tarea) => tarea.id !== idTarea);
+    const tareasActualizadas = tareasActuales.filter(
+      (tarea) => tarea.id !== idTarea
+    );
 
     // Actualizar el objeto "backlog" con las tareas restantes
-    await axios.put(API_URL, { tareas: tareasActualizadas });
-
-    return idTarea; // Retornar el ID de la tarea eliminada
+    await axios.put("http://localhost:3000/backlog", {
+      tareas: tareasActualizadas,
+    });
   } catch (error) {
     console.error("Error al eliminar la tarea:", error);
     throw error;
