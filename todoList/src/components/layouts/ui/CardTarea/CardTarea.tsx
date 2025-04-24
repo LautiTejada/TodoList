@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { ModalEditarTarea } from "../../../modals/ModalEditarTarea/ModalEditarTarea";
 import { sprintStore } from "../../../../store/sprintStore";
 import axios from "axios";
+import { eliminarTareaById } from "../../../../http/todoList";
 
 interface cardTareaProps {
   tarea: ITarea;
@@ -133,7 +134,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleVerTarea(tarea)}
               >
-                <span className="material-symbols-outlined" style={{ color: "black" }}>visibility</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  visibility
+                </span>
               </Button>
 
               <Button
@@ -142,7 +148,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleEditarTarea(tarea)}
               >
-                <span className="material-symbols-outlined" style={{ color: "black" }}>edit</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  edit
+                </span>
               </Button>
 
               <Button
@@ -151,7 +162,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleEliminarTarea(tarea.id!)}
               >
-                <span className="material-symbols-outlined" style={{ color: "black" }}>delete</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  delete
+                </span>
               </Button>
             </ButtonGroup>
           </div>
