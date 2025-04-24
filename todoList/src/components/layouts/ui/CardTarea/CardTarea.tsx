@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Card, Button, ButtonGroup, Form } from "react-bootstrap";
 import { taskStore } from "../../../../store/todoStore";
-import { ITarea } from "../../../../types/ITodo";
+import { ISprint, ITarea } from "../../../../types/ITodo";
 import styles from "./CardTarea.module.css";
 import { ModalVerTarea } from "../../../modals/ModalVerTarea/ModalVerTarea";
 import Swal from "sweetalert2";
-import { eliminarTareaById } from "../../../../http/todoList";
 import { ModalEditarTarea } from "../../../modals/ModalEditarTarea/ModalEditarTarea";
 import { sprintStore } from "../../../../store/sprintStore";
 import axios from "axios";
+import { eliminarTareaById } from "../../../../http/todoList";
 
 interface cardTareaProps {
   tarea: ITarea;
@@ -56,21 +56,26 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
 
     if (resultado.isConfirmed) {
       try {
-        // Eliminar la tarea del backend
-        const response = await axios.get<{ sprints: ISprint[] }>(
-          "http://localhost:3000/sprintList"
-        );
-        const sprints = response.data.sprints;
+        if (sprintId) {
+          // Eliminar la tarea del sprint
+          const response = await axios.get<{ sprints: ISprint[] }>(
+            "http://localhost:3000/sprintList"
+          );
+          const sprints = response.data.sprints;
 
-        const sprint = sprints.find((s) => s.id === sprintId);
-        if (sprint) {
-          sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
-          await axios.put("http://localhost:3000/sprintList", { sprints });
+          const sprint = sprints.find((s) => s.id === sprintId);
+          if (sprint) {
+            sprint.tareas = sprint.tareas.filter((tarea) => tarea.id !== id);
+            await axios.put("http://localhost:3000/sprintList", { sprints });
+          }
+
+          // Actualizar el estado local
+          sprintStore.getState().eliminarTareaDeSprint(sprintId, id);
+        } else {
+          // Eliminar la tarea del backlog
+          await eliminarTareaById(id);
+          eliminarUnaTarea(id);
         }
-
-        // Actualizar el estado local
-        eliminarUnaTarea(id); // Eliminar del backlog si aplica
-        sprintStore.getState().eliminarTareaDeSprint(sprintId!, id); // Eliminar del sprint
 
         Swal.fire("¡Eliminada!", "La tarea ha sido eliminada.", "success");
       } catch (error) {
@@ -129,7 +134,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleVerTarea(tarea)}
               >
-                <span className="material-symbols-outlined">visibility</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  visibility
+                </span>
               </Button>
 
               <Button
@@ -138,7 +148,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleEditarTarea(tarea)}
               >
-                <span className="material-symbols-outlined">edit</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  edit
+                </span>
               </Button>
 
               <Button
@@ -147,7 +162,12 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
                 className="rounded-2"
                 onClick={() => handleEliminarTarea(tarea.id!)}
               >
-                <span className="material-symbols-outlined">delete</span>
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "black" }}
+                >
+                  delete
+                </span>
               </Button>
             </ButtonGroup>
           </div>
@@ -158,6 +178,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
         show={showModalEdit}
         tarea={tareaSeleccionada}
         handleClose={handleCloseModalEdit}
+        sprintId={sprintId}
       />
 
       <ModalVerTarea

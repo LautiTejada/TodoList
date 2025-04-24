@@ -6,7 +6,8 @@ import {
   getAllSprints,
   postNuevoSprint,
 } from "../http/sprintList";
-import { ISprint } from "../types/ITodo";
+import { ISprint, ITarea } from "../types/ITodo";
+import { editarTarea } from "../http/todoList";
 
 export const useSprint = () => {
   const {
@@ -15,6 +16,7 @@ export const useSprint = () => {
     agregarUnSprint,
     eliminarUnSprint,
     editarUnSprint,
+    editarTareaEnSprint,
   } = sprintStore(
     useShallow((state) => ({
       sprints: state.sprints,
@@ -22,6 +24,7 @@ export const useSprint = () => {
       agregarUnSprint: state.agregarUnSprint,
       eliminarUnSprint: state.eliminarUnSprint,
       editarUnSprint: state.editarUnSprint,
+      editarTareaEnSprint: state.editarTareaEnSprint,
     }))
   );
 
@@ -59,12 +62,36 @@ export const useSprint = () => {
       if (estadoPrevio) agregarUnSprint(estadoPrevio);
     }
   };
+  const editarTareaEnSprintAsync = async (
+    idSprint: string,
+    idTarea: string,
+    taskData: Partial<ITarea>
+  ) => {
+    try {
+      // Actualiza el estado local
+      editarTareaEnSprint(idSprint, idTarea, taskData);
+
+      // Sincroniza con el backend
+      const sprint = sprints.find((s) => s.id === idSprint);
+      if (!sprint) throw new Error("Sprint no encontrado");
+
+      const tareasActualizadas = sprint.tareas.map((tarea) =>
+        tarea.id === idTarea ? { ...tarea, ...taskData } : tarea
+      );
+
+      const sprintActualizado: ISprint = { ...sprint, tareas: tareasActualizadas };
+      await editarSprint(sprintActualizado);
+    } catch (error) {
+      console.error("Error al editar la tarea en el sprint:", error);
+    }
+  };
 
   return {
     getSprints,
     crearSprint,
     putSprintEditar,
     eliminarSprint,
+    editarTareaEnSprintAsync,
     sprints,
   };
 };
