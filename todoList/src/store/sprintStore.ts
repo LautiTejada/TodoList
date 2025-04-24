@@ -64,11 +64,20 @@ export const sprintStore = create<ISprintStore>((set) => ({
 
   asociarTareaASprint: (idSprint: string, tarea: ITarea) =>
     set((state) => {
+      
+      if (!tarea.id || !tarea.titulo || !tarea.descripcion) {
+        console.error("La tarea no tiene el formato correcto:", tarea);
+        return state; 
+      }
+
       const sprintsActualizados = state.sprints.map((sprint) =>
         sprint.id === idSprint
           ? {
               ...sprint,
-              tareas: [...sprint.tareas, { ...tarea, status: "pendiente" }],
+              tareas: [
+                ...sprint.tareas,
+                { ...tarea, status: tarea.status || "pendiente" },
+              ],
             }
           : sprint
       );
