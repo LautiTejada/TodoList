@@ -131,7 +131,7 @@ export const sprintStore = create<ISprintStore>((set) => ({
       console.error("Error al cambiar el estado de la tarea:", error);
     }
   },
-  eliminarTareaDeSprint: (idSprint, idTarea) =>
+  eliminarTareaDeSprint: (idSprint: string, idTarea: string) =>
     set((state) => {
       const sprintsActualizados = state.sprints.map((sprint) => {
         if (sprint.id === idSprint) {
@@ -144,8 +144,7 @@ export const sprintStore = create<ISprintStore>((set) => ({
       });
       return { sprints: sprintsActualizados };
     }),
-  editarTareaEnSprint:  async(idSprint, idTarea, taskData) => {
-    
+  editarTareaEnSprint: async (idSprint, idTarea, taskData) => {
     set((state) => {
       const sprintsActualizados = state.sprints.map((sprint) => {
         if (sprint.id === idSprint) {
@@ -158,7 +157,6 @@ export const sprintStore = create<ISprintStore>((set) => ({
       });
 
       return { sprints: sprintsActualizados };
-    })
-    
-  }
+    });
+  },
 }));

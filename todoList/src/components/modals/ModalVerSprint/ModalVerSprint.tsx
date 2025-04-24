@@ -2,17 +2,21 @@ import { Button, Modal } from "react-bootstrap";
 import { ISprint } from "../../../types/ITodo";
 
 interface ModalVerSprintProps {
-    show: boolean;
-    handleClose: () => void;
-    sprint: ISprint | null;
+  show: boolean;
+  handleClose: () => void;
+  sprint: ISprint | null;
 }
 
-export const ModalVerSprint = ({show, handleClose, sprint}: ModalVerSprintProps) => {
-    if(!sprint) return null;
+export const ModalVerSprint = ({
+  show,
+  handleClose,
+  sprint,
+}: ModalVerSprintProps) => {
+  if (!sprint) return null;
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Detalle de la Tarea</Modal.Title>
+        <Modal.Title>Detalle de la Sprint</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
@@ -31,5 +35,5 @@ export const ModalVerSprint = ({show, handleClose, sprint}: ModalVerSprintProps)
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
