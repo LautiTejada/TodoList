@@ -11,6 +11,17 @@ interface ISprintStore {
   agregarUnSprint: (nuevoSprint: ISprint) => void;
   editarUnSprint: (sprintEditado: ISprint) => void;
   eliminarUnSprint: (idSprint: string) => void;
+  editarTareaEnSprint: (
+    idSprint: string,
+    idTarea: string,
+    taskData: Partial<ITarea>
+  ) => void;
+  eliminarTareaDeSprint: (idSprint: string, idTarea: string) => void;
+  cambiarEstadoTarea: (
+    idSprint: string,
+    idTarea: string,
+    nuevoEstado: "pendiente" | "en-progreso" | "completada"
+  ) => void;
 }
 
 export const sprintStore = create<ISprintStore>((set) => ({
@@ -64,11 +75,19 @@ export const sprintStore = create<ISprintStore>((set) => ({
 
   asociarTareaASprint: (idSprint: string, tarea: ITarea) =>
     set((state) => {
+      if (!tarea.id || !tarea.titulo || !tarea.descripcion) {
+        console.error("La tarea no tiene el formato correcto:", tarea);
+        return state;
+      }
+
       const sprintsActualizados = state.sprints.map((sprint) =>
         sprint.id === idSprint
           ? {
               ...sprint,
-              tareas: [...sprint.tareas, { ...tarea, status: "pendiente" }],
+              tareas: [
+                ...sprint.tareas,
+                { ...tarea, status: tarea.status || "pendiente" },
+              ],
             }
           : sprint
       );
@@ -112,7 +131,7 @@ export const sprintStore = create<ISprintStore>((set) => ({
       console.error("Error al cambiar el estado de la tarea:", error);
     }
   },
-  eliminarTareaDeSprint: (idSprint: string, idTarea: string) =>
+  eliminarTareaDeSprint: (idSprint, idTarea) =>
     set((state) => {
       const sprintsActualizados = state.sprints.map((sprint) => {
         if (sprint.id === idSprint) {
@@ -125,17 +144,21 @@ export const sprintStore = create<ISprintStore>((set) => ({
       });
       return { sprints: sprintsActualizados };
     }),
-  editarTareaEnSprint: (idSprint: string, tareaEditada: ITarea) =>
+  editarTareaEnSprint:  async(idSprint, idTarea, taskData) => {
+    
     set((state) => {
       const sprintsActualizados = state.sprints.map((sprint) => {
         if (sprint.id === idSprint) {
           const tareasActualizadas = sprint.tareas.map((tarea) =>
-            tarea.id === tareaEditada.id ? tareaEditada : tarea
+            tarea.id === idTarea ? { ...tarea, ...taskData } : tarea
           );
           return { ...sprint, tareas: tareasActualizadas };
         }
         return sprint;
       });
+
       return { sprints: sprintsActualizados };
-    }),
+    })
+    
+  }
 }));

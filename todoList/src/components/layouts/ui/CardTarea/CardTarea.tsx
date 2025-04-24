@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, Button, ButtonGroup, Form } from "react-bootstrap";
 import { taskStore } from "../../../../store/todoStore";
-import { ITarea } from "../../../../types/ITodo";
+import { ISprint, ITarea } from "../../../../types/ITodo";
 import styles from "./CardTarea.module.css";
 import { ModalVerTarea } from "../../../modals/ModalVerTarea/ModalVerTarea";
 import Swal from "sweetalert2";
@@ -158,6 +158,7 @@ export const CardTarea = ({ tarea, sprintId }: cardTareaProps) => {
         show={showModalEdit}
         tarea={tareaSeleccionada}
         handleClose={handleCloseModalEdit}
+        sprintId={sprintId} 
       />
 
       <ModalVerTarea
